@@ -41,6 +41,14 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(img, dx, dy, dw, dh);
+    // Vignette over top edge to cover baked-in "ARRASTE E DESCUBRA" text
+    const vignH = dh * 0.18;
+    const vig = ctx.createLinearGradient(0, dy, 0, dy + vignH);
+    vig.addColorStop(0,    'rgba(10,10,10,1)');
+    vig.addColorStop(0.55, 'rgba(10,10,10,1)');
+    vig.addColorStop(1,    'rgba(10,10,10,0)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(dx, dy, dw, vignH);
     syncFinalImage(dw, dh, dx, dy);
   }
 
