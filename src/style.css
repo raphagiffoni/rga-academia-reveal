@@ -1,0 +1,84 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: #0a0a0a;
+}
+
+#final-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+#reveal-canvas {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+  cursor: crosshair;
+  display: block;
+}
+
+#cta-button {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #8B0000;
+  color: #fff;
+  text-decoration: none;
+  padding: 16px 32px;
+  font-family: 'Arial', sans-serif;
+  font-size: clamp(13px, 2vw, 17px);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease;
+}
+
+#cta-button.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.92);
+  font-family: 'Arial', sans-serif;
+  font-size: clamp(14px, 3.5vw, 20px);
+  letter-spacing: 0.28em;
+  font-weight: 300;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 700ms ease;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
+}
+
+#hint.hidden {
+  opacity: 0;
+}
