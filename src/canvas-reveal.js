@@ -17,14 +17,20 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     const imgRatio = img.width / img.height;
     const canvasRatio = canvas.width / canvas.height;
     const isPortrait = canvasRatio < 1;
-    const zoom = isPortrait ? 0.8 : 1.0;
     let dw, dh;
-    if (canvasRatio > imgRatio) {
-      dh = canvas.height * zoom;
+    if (isPortrait) {
+      // Portrait mobile: scale by height (image fills screen height), zoom out 80%
+      dh = canvas.height * 0.8;
       dw = dh * imgRatio;
     } else {
-      dw = canvas.width * zoom;
-      dh = dw / imgRatio;
+      // Desktop: contain — never crop regardless of monitor aspect ratio
+      if (canvasRatio > imgRatio) {
+        dh = canvas.height;
+        dw = dh * imgRatio;
+      } else {
+        dw = canvas.width;
+        dh = dw / imgRatio;
+      }
     }
     return { dw, dh, dx: (canvas.width - dw) / 2, dy: (canvas.height - dh) / 2 };
   }
@@ -49,6 +55,7 @@ export function initCanvasReveal(canvas, onThresholdReached) {
       el.style.top = dy + 'px';
       el.style.right = 'auto';
       el.style.bottom = 'auto';
+      el.style.opacity = '1';
     }
 
     // If the image doesn't fill the full screen height (portrait zoom-out),

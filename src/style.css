@@ -25,6 +25,7 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
 }
 
 #reveal-canvas {
