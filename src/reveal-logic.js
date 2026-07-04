@@ -3,7 +3,7 @@
 export const LOGO_REGION = { x: 0.27, y: 0.12, w: 0.46, h: 0.70 };
 
 // Porcentagem mínima de pixels revelados na região da logo para exibir o CTA
-export const CTA_THRESHOLD = 0.3;
+export const CTA_THRESHOLD = 0.2;
 
 // Raio do pincel em pixels
 export const BRUSH_RADIUS = { desktop: 70, touch: 90 };
