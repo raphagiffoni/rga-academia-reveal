@@ -3,13 +3,13 @@
 export const LOGO_REGION = { x: 0.27, y: 0.12, w: 0.46, h: 0.70 };
 
 // Porcentagem mínima de pixels revelados na região da logo para exibir o CTA
-export const CTA_THRESHOLD = 0.5;
+export const CTA_THRESHOLD = 0.3;
 
 // Raio do pincel em pixels
 export const BRUSH_RADIUS = { desktop: 70, touch: 90 };
 
 // URL de destino do botão CTA — troque aqui sem tocar no resto do código
-export const CTA_URL = 'https://chat.whatsapp.com/EVP11rV4tiC2sT57n0K5eZ?mode=gi_t';
+export const CTA_URL = 'https://chat.whatsapp.com/EbQPiZBA45EFte3ntPhg5h?mode=gi_t';
 
 /**
  * Conta quantos pixels têm alpha = 0 (foram apagados pelo canvas).
