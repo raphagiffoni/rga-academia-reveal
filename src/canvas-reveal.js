@@ -4,6 +4,9 @@ export function initCanvasReveal(canvas, onThresholdReached) {
   const ctx = canvas.getContext('2d');
   let thresholdMet = false;
   let hintHidden = false;
+  let scratchStarted = false;
+  let revealTimer = null;
+  let imageReady = false;
   const img = new Image();
 
   function fit() {
@@ -100,7 +103,22 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     }
   }
 
+  function triggerReveal() {
+    if (thresholdMet) return;
+    thresholdMet = true;
+    clearTimeout(revealTimer);
+    canvas.classList.add('fade-out');
+    const hint = document.getElementById('hint');
+    if (hint) hint.classList.add('hidden');
+    onThresholdReached();
+  }
+
   function erase(x, y, radius) {
+    if (!scratchStarted) {
+      scratchStarted = true;
+      revealTimer = setTimeout(triggerReveal, 5000);
+    }
+
     maybeHideHint(x, y, radius);
 
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
@@ -115,17 +133,14 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     ctx.fill();
     ctx.globalCompositeOperation = 'source-over';
 
-    if (!thresholdMet) checkThreshold();
+    if (!thresholdMet && imageReady) checkThreshold();
   }
 
   function checkThreshold() {
     const { x, y, w, h } = getLogoRegionBounds(canvas.width, canvas.height);
     const { data } = ctx.getImageData(x, y, w, h);
     const erased = countErasedPixels(data);
-    if (isThresholdReached(erased, w * h)) {
-      thresholdMet = true;
-      onThresholdReached();
-    }
+    if (isThresholdReached(erased, w * h)) triggerReveal();
   }
 
   // Desktop: revela ao mover o mouse (sem precisar clicar)
@@ -145,7 +160,7 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     erase(touch.clientX - rect.left, touch.clientY - rect.top, brushRadius(true));
   }, { passive: false });
 
-  img.onload = fit;
+  img.onload = () => { imageReady = true; fit(); };
   img.src = '/tela-inicial.png';
   window.addEventListener('resize', fit);
 }

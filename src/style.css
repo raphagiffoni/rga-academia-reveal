@@ -34,6 +34,11 @@ html, body {
   touch-action: none;
   cursor: crosshair;
   display: block;
+  transition: opacity 1500ms ease;
+}
+
+#reveal-canvas.fade-out {
+  opacity: 0;
 }
 
 #cta-button {
