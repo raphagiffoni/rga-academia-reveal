@@ -41,14 +41,6 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'source-over';
     ctx.drawImage(img, dx, dy, dw, dh);
-    // Vignette over top edge to cover baked-in "ARRASTE E DESCUBRA" text
-    const vignH = dh * 0.18;
-    const vig = ctx.createLinearGradient(0, dy, 0, dy + vignH);
-    vig.addColorStop(0,    'rgba(10,10,10,1)');
-    vig.addColorStop(0.55, 'rgba(10,10,10,1)');
-    vig.addColorStop(1,    'rgba(10,10,10,0)');
-    ctx.fillStyle = vig;
-    ctx.fillRect(dx, dy, dw, vignH);
     syncFinalImage(dw, dh, dx, dy);
   }
 
@@ -93,12 +85,23 @@ export function initCanvasReveal(canvas, onThresholdReached) {
     return isTouch ? minDim * 0.10 : minDim * 0.09;
   }
 
-  function erase(x, y, radius) {
-    if (!hintHidden) {
+  function maybeHideHint(x, y, radius) {
+    if (hintHidden) return;
+    const hint = document.getElementById('hint');
+    if (!hint) return;
+    const hr = hint.getBoundingClientRect();
+    const cr = canvas.getBoundingClientRect();
+    const hx = hr.left - cr.left;
+    const hy = hr.top - cr.top;
+    if (x + radius > hx && x - radius < hx + hr.width &&
+        y + radius > hy && y - radius < hy + hr.height) {
       hintHidden = true;
-      const hint = document.getElementById('hint');
-      if (hint) hint.classList.add('hidden');
+      hint.classList.add('hidden');
     }
+  }
+
+  function erase(x, y, radius) {
+    maybeHideHint(x, y, radius);
 
     const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
     gradient.addColorStop(0, 'rgba(0,0,0,1)');
