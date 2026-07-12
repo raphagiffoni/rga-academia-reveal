@@ -9,7 +9,7 @@ export const CTA_THRESHOLD = 0.2;
 export const BRUSH_RADIUS = { desktop: 70, touch: 90 };
 
 // URL de destino do botão CTA — troque aqui sem tocar no resto do código
-export const CTA_URL = 'https://chat.whatsapp.com/EbQPiZBA45EFte3ntPhg5h?mode=gi_t';
+export const CTA_URL = 'https://chat.whatsapp.com/IpYbzyfzwLJ91BilVTQjem?s=cl&p=i&ilr=0&amv=1';
 
 /**
  * Conta quantos pixels têm alpha = 0 (foram apagados pelo canvas).
